@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: api
-          image: 599476212737.dkr.ecr.ap-south-1.amazonaws.com/cloudops-dev-api:latest
+          image: 599476212737.dkr.ecr.ap-south-1.amazonaws.com/cloudops-dev-api:7eaef254956c9b76a29d233f1b491f962e8d4a9a
           ports:
             - containerPort: 3000
