@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudops-api
+  namespace: cloudops-prod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: 599476212737.dkr.ecr.ap-south-1.amazonaws.com/cloudops-dev-api:latest
+          ports:
+            - containerPort: 3000
