@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap 
+metadata:
+  name: api-config
+  namespace: cloudops-prod
+data:
+  PORT: "3000"
+  NODE_ENV: production
+  DB_HOST: "5432"
+  DB_NAME: cloudops
+  DB_USER: cloudops
+  REDIS_HOST: redis 
+  REDIS_PORT: "6379"
