@@ -1,0 +1,32 @@
+apiVersion: v1 
+kind: ServiceAccount
+metadata:
+  name: api-sa
+  namespace: cloudops-prod
+
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: api-role
+  namespace: cloudops-prod
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps","secrets"]
+    verbs: ["get","list"]
+
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: api-rolebinding
+  namespace: cloudops-prod
+subjects:
+  - kind: ServiceAccount
+    name: api-sa
+    namespace: cloudops-prod
+roleRef:
+  kind: Role
+  name: api-role
+  apiGroup: rbac.authorization.k8s.io

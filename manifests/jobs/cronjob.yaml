@@ -1,0 +1,29 @@
+apiVersion: batch/v1 
+kind: CronJob
+metadata:
+  name: db-cleanup
+  namespace: cloudops-prod
+spec:
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: db-cleanup
+              image: postgres:15-alpine
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  psql $DATABASE_URL -c "DELETE FROM urls WHERE created_at < NOW() - INTERVAL '90 days';"
+              env:
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: api-secrets
+                      key: DATABASE_URL
+          restartPolicy: OnFailure
+                
+
