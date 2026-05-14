@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudops-rbac
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:Suraj8853/cloudops-gitops.git
+    targetRevision: HEAD
+    path: manifests/rbac
+    directory:
+      recurse: true
+  destination:
+    server: http://kubernetes.default.svc
+    namespace: cloudops-prod
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
