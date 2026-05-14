@@ -12,7 +12,7 @@ spec:
     directory:
       recurse: true
   destination:
-    server: http://kubernetes.default.svc
+    server: https://kubernetes.default.svc
     namespace: cloudops-prod
   syncPolicy:
     automated:
