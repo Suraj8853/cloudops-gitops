@@ -1,0 +1,54 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cloudops-alert
+  namespace: cloudops-monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: cloudops.rules
+      rules:
+        - alert: HighErrorRate
+          expr: |
+            sum(rate(url_shortener_requests_total{status_code=~"4..|5.."}[5m]))
+             /
+            sum(rate(url_shortener_requests_total[5m])) > 0.05
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High Error Rate detected"
+            description: "Error rate is above 5% for the last 5 minutes"
+        - alert: APIPodDown
+          expr: |
+            kube_deployment_status_replicas_ready{
+              namespace="cloudops-prod",
+              deployment="cloudops-api"
+            } == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "API is down"
+            description: "All API pods are down"
+
+        - alert: HighMemoryUsage
+          expr: |
+            container_memory_usage_bytes{
+              namespace="cloudops-prod",
+              container="api"
+            }
+            /
+            container_spec_memory_limit_bytes{
+              namespace="cloudops-prod",
+              container="api"
+            } > 0.8
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High Memory Useage"
+            description: "API memory usage is above 80% of limit"
+
+            
