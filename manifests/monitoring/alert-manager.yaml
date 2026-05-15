@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: cloudops-alertmanager
+  namespace: cloudops-monitoring
+  labels:
+    alertmanagerconfig: cloudops
+spec:
+  route:
+    receiver: slack-critical
+    matchers:
+      - name: severity
+        value: critical
+  receivers:
+    - name: slack-critical
+      slackConfigs:
+        - apiURL:
+            key: webhookURL
+            name: slack-webhook-secret
+          channel: '#all-cloudops-platform'
+          sendResolved: true
+          title: '{{ .CommonAnnotations.summary }}'
+          text: '{{ .CommonAnnotations.description }}'
