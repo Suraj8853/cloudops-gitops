@@ -35,15 +35,10 @@ spec:
 
         - alert: HighMemoryUsage
           expr: |
-            container_memory_usage_bytes{
-              namespace="cloudops-prod",
-              container="api"
-            }
+            container_memory_working_set_bytes{namespace="cloudops-prod", container="api"}
             /
-            container_spec_memory_limit_bytes{
-              namespace="cloudops-prod",
-              container="api"
-            } > 0.8
+            on(pod) kube_pod_container_resource_limits{namespace="cloudops-prod", container="api", resource="memory"}
+            > 0.8
           for: 5m
           labels:
             severity: warning
