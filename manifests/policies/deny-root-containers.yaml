@@ -1,0 +1,26 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: deny-root-containers
+  annotations:
+    policies.kyverno.io/title: Deny Root Containers
+    policies.kyverno.io/description: >-
+      Containers must not be run as root users.
+      All Containers must set runAsNonRoot=true
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: check-runAsNonRoot
+      match: 
+        any:
+          - resources:
+              kinds: 
+                - Pod
+      validate:
+        message: "Containers must not run as root. Set runAsNonRoot: true in securityContext."
+        pattern:
+          spec:
+            containers:
+              - securityContext: 
+                  runAsNonRoot: true
