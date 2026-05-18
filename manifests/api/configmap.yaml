@@ -11,3 +11,4 @@ data:
   DB_USER: cloudops
   REDIS_HOST: redis 
   REDIS_PORT: "6379"
+  BASE_URL: "http://api.apisuraj.click"
