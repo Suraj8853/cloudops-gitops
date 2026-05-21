@@ -20,4 +20,9 @@ spec:
       selfheal: true
     syncOptions:
       - CreateNamespace=true
-      
+  ignoreDifferences:
+    - group: storage.k8s.io
+      kind: StorageClass
+      jsonPointers:
+        - /metadata/annotations
+        - /metadata/resourceVersion
