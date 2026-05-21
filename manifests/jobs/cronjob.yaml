@@ -11,6 +11,10 @@ spec:
     spec:
       template:
         spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 999
+            fsGroup: 999
           containers:
             - name: db-cleanup
               image: postgres:15-alpine
@@ -24,6 +28,10 @@ spec:
                     secretKeyRef:
                       name: api-secrets
                       key: DATABASE_URL
+              securityContext:
+                runAsNonRoot: true
+                runAsUser: 999
+                allowPrivilegeEscalation: false
           restartPolicy: OnFailure
                 
 
