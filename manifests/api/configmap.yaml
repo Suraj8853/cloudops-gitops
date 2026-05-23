@@ -1,14 +1,15 @@
 apiVersion: v1
-kind: ConfigMap 
+kind: ConfigMap
 metadata:
   name: api-config
   namespace: cloudops-prod
 data:
-  PORT: "3000"
-  NODE_ENV: production
-  DB_HOST: "5432"
-  DB_NAME: cloudops
-  DB_USER: cloudops
-  REDIS_HOST: redis 
-  REDIS_PORT: "6379"
   BASE_URL: "http://api.apisuraj.click"
+  DB_HOST: "cloudops-dev-db.cpy6ycuuk00m.ap-south-1.rds.amazonaws.com"
+  DB_PORT: "5432"
+  DB_NAME: "cloudops"
+  DB_USER: "cloudops"
+  NODE_ENV: "production"
+  PORT: "3000"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
