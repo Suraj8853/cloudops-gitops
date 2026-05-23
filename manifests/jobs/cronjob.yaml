@@ -21,17 +21,30 @@ spec:
               command: ["/bin/sh", "-c"]
               args:
                 - |
-                  psql $DATABASE_URL -c "DELETE FROM urls WHERE created_at < NOW() - INTERVAL '90 days';"
+                  PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME -c "DELETE FROM urls WHERE created_at < NOW() - INTERVAL '90 days';"
               env:
-                - name: DATABASE_URL
+                - name: DB_HOST
+                  valueFrom:
+                    configMapKeyRef:
+                      name: api-config
+                      key: DB_HOST
+                - name: DB_NAME
+                  valueFrom:
+                    configMapKeyRef:
+                      name: api-config
+                      key: DB_NAME
+                - name: DB_USER
                   valueFrom:
                     secretKeyRef:
                       name: api-secret
-                      key: DATABASE_URL
+                      key: DB_USER
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: api-secret
+                      key: DB_PASSWORD
               securityContext:
                 runAsNonRoot: true
                 runAsUser: 999
                 allowPrivilegeEscalation: false
           restartPolicy: OnFailure
-                
-
