@@ -25,7 +25,7 @@ spec:
         runAsUser: 3000
       containers:
         - name: api 
-          image: 599476212737.dkr.ecr.ap-south-1.amazonaws.com/cloudops-dev-api:73ba8ba83666b47c59831cdbe957f9d9dc25235d
+          image: 599476212737.dkr.ecr.ap-south-1.amazonaws.com/cloudops-dev-api:a8f26bb231e54008eb322121fbde40595c0d712e
           ports:
             - containerPort: 3000
           resources:
